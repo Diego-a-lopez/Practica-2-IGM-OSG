@@ -59,7 +59,6 @@ en la carpeta "historicos" se mantiene una version de los archivos anteriores do
 - `spinningcubeV4.cpp`: Implementación con texturas aplicadas a los cubos.
 
 ## Imágenes del Gráfico de Escena
-Gráfico de la escena OSG
 ![Diagrama-OSG](Diagrama-OSG.png)
 
 ## Muestra de ejecución
