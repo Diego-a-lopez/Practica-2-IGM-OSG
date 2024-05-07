@@ -23,16 +23,16 @@
 int main(int argc, char** argv) {
     // Create a root node
     osg::ref_ptr<osg::Group> root = new osg::Group;
+
     
     //Enable Default Light
     osg::ref_ptr<osg::StateSet> ss = root->getOrCreateStateSet();
 	ss->setMode(GL_LIGHTING, osg::StateAttribute::ON);
-    
 
     // Create a transform node to displace the cube
     osg::ref_ptr<osg::MatrixTransform> cubeTransform = new osg::MatrixTransform;
     osg::Matrix matrix;
-    matrix.makeTranslate(0.0f, -5.0f, 0.0f); // move the cube negative 5 units in the z axis
+    matrix.makeTranslate(0.0f, -8.0f, 0.0f); // move the cube negative 5 units in the z axis
     cubeTransform->setMatrix(matrix);
 
     // Create a geode to hold the cube shape
@@ -56,20 +56,64 @@ int main(int argc, char** argv) {
 
     // Add the transform node to the root node
     root->addChild(cubeTransform);
-
+    
     // Create a rotation animation and orbiting aroung (0.0f, -5.f, 0.0f)
     
     osg::ref_ptr<osg::AnimationPath> rotationAnimation = new osg::AnimationPath;
     rotationAnimation->setLoopMode(osg::AnimationPath::LOOP);
-    rotationAnimation->insert(0.0, osg::AnimationPath::ControlPoint(osg::Vec3(4.0f, 0.0f, 0.0f), osg::Quat(0.0, osg::Vec3(1.0, 0.0, 0.0))));
-    rotationAnimation->insert(3.0, osg::AnimationPath::ControlPoint(osg::Vec3(0.0f, 4.0f, 0.0f), osg::Quat(osg::PI_2, osg::Vec3(1.0, 1.0, 0.0))));
-    rotationAnimation->insert(6.0, osg::AnimationPath::ControlPoint(osg::Vec3(-4.0f, 0.0f, 0.0f), osg::Quat(osg::PI_2, osg::Vec3(0.0, 0.0, 1.0))));
-    rotationAnimation->insert(9.0, osg::AnimationPath::ControlPoint(osg::Vec3(0.0f, -4.0f, 0.0f), osg::Quat(osg::PI_2, osg::Vec3(-1.0, -1.0, 0.0))));
-    rotationAnimation->insert(12.0, osg::AnimationPath::ControlPoint(osg::Vec3(4.0f, 0.0f, 0.0f), osg::Quat(osg::PI_2, osg::Vec3(0.0, 0.0, -1.0))));
+    rotationAnimation->insert(0.0, osg::AnimationPath::ControlPoint(osg::Vec3(4.0f, 0.0f, 2.0f), osg::Quat(0.0, osg::Vec3(1.0, 0.0, 0.0))));
+    rotationAnimation->insert(3.0, osg::AnimationPath::ControlPoint(osg::Vec3(0.0f, 4.0f, 2.0f), osg::Quat(osg::PI_2, osg::Vec3(1.0, 1.0, 0.0))));
+    rotationAnimation->insert(6.0, osg::AnimationPath::ControlPoint(osg::Vec3(-4.0f, 0.0f, 2.0f), osg::Quat(osg::PI_2, osg::Vec3(0.0, 0.0, 1.0))));
+    rotationAnimation->insert(9.0, osg::AnimationPath::ControlPoint(osg::Vec3(0.0f, -4.0f, 2.0f), osg::Quat(osg::PI_2, osg::Vec3(-1.0, -1.0, 0.0))));
+    rotationAnimation->insert(12.0, osg::AnimationPath::ControlPoint(osg::Vec3(4.0f, 0.0f, 2.0f), osg::Quat(osg::PI_2, osg::Vec3(0.0, 0.0, -1.0))));
     osg::ref_ptr<osg::AnimationPathCallback> rotationCallback = new osg::AnimationPathCallback(rotationAnimation);
-
+    
+    
     // Attach rotation animation to the transform node
     cubeTransform->setUpdateCallback(rotationCallback);
+    
+    //Second Cube
+    
+    // Create a transform node to displace the cube
+    osg::ref_ptr<osg::MatrixTransform> cubeTransform2 = new osg::MatrixTransform;
+    osg::Matrix matrix2;
+    matrix2.makeTranslate(0.0f, -8.0f, 0.0f); // move the cube negative 5 units in the z axis and 2
+    cubeTransform2->setMatrix(matrix2);
+
+    // Create a geode to hold the cube shape
+    osg::ref_ptr<osg::Geode> geode2 = new osg::Geode;
+    
+    // Create a cube shape
+    osg::ref_ptr<osg::Box> box2 = new osg::Box(osg::Vec3(0, 0, 0), 1.0f);
+    osg::ref_ptr<osg::ShapeDrawable> shapeDrawable2 = new osg::ShapeDrawable(box2);
+
+    // Set the color of the cube
+    osg::ref_ptr<osg::Vec4Array> colors2 = new osg::Vec4Array;
+    colors2->push_back(osg::Vec4(0.0f, 0.0f, 1.0f, 1.0f)); // Blue color
+    shapeDrawable2->setColorArray(colors2);
+    shapeDrawable2->setColorBinding(osg::Geometry::BIND_OVERALL);
+
+    // Add the shape to the geode
+    geode2->addDrawable(shapeDrawable2);
+
+    // Add the geode to the transform node
+    cubeTransform2->addChild(geode2);
+
+    // Add the transform node to the root node
+    root->addChild(cubeTransform2);
+    
+    // Second Cube Rotation Animation
+    osg::ref_ptr<osg::AnimationPath> rotationAnimation2 = new osg::AnimationPath;
+    rotationAnimation2->setLoopMode(osg::AnimationPath::LOOP);
+    rotationAnimation2->insert(0.0, osg::AnimationPath::ControlPoint(osg::Vec3(4.0f, 0.0f, -2.0f), osg::Quat(0.0, osg::Vec3(1.0, 0.0, 0.0))));
+    rotationAnimation2->insert(3.0, osg::AnimationPath::ControlPoint(osg::Vec3(0.0f, 4.0f, -2.0f), osg::Quat(osg::PI_2, osg::Vec3(1.0, 1.0, 0.0))));
+    rotationAnimation2->insert(6.0, osg::AnimationPath::ControlPoint(osg::Vec3(-4.0f, 0.0f, -2.0f), osg::Quat(osg::PI_2, osg::Vec3(0.0, 0.0, 1.0))));
+    rotationAnimation2->insert(9.0, osg::AnimationPath::ControlPoint(osg::Vec3(0.0f, -4.0f, -2.0f), osg::Quat(osg::PI_2, osg::Vec3(-1.0, -1.0, 0.0))));
+    rotationAnimation2->insert(12.0, osg::AnimationPath::ControlPoint(osg::Vec3(4.0f, 0.0f, -2.0f), osg::Quat(osg::PI_2, osg::Vec3(0.0, 0.0, -1.0))));
+	osg::ref_ptr<osg::AnimationPathCallback> rotationCallback2 = new osg::AnimationPathCallback(rotationAnimation2);
+    
+    // Attach rotation animation to the second transform node
+    cubeTransform2->setUpdateCallback(rotationCallback2);
 
     // Create a viewer
     osgViewer::Viewer viewer;
