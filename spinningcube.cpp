@@ -114,7 +114,7 @@ int main(int argc, char** argv) {
     osg::ref_ptr<osg::Geode> lightGeode = new osg::Geode;
 
     // Create a cube shape for the small cube representing the light
-    osg::ref_ptr<osg::Box> lightGeometry = new osg::Box(osg::Vec3(0, 0, 0), 0.2f);
+    osg::ref_ptr<osg::Box> lightGeometry = new osg::Box(osg::Vec3(0, 0, 0), 0.5f);
     osg::ref_ptr<osg::ShapeDrawable> lightDrawable = new osg::ShapeDrawable(lightGeometry);
 
     // Set the color of the small cube to vibrant green
