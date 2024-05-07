@@ -11,6 +11,8 @@ int main(int argc, char** argv) {
     // Create a root node
     osg::ref_ptr<osg::Group> root = new osg::Group;
 
+
+
     // Create a transform node to displace the cube
     osg::ref_ptr<osg::MatrixTransform> cubeTransform = new osg::MatrixTransform;
     osg::Matrix matrix;
@@ -97,6 +99,10 @@ int main(int argc, char** argv) {
     // Attach rotation animation to the second transform node
     cubeTransform2->setUpdateCallback(rotationCallback2);
     
+    // Create an intermediary node to hold the green cube and light source
+    osg::ref_ptr<osg::Group> group = new osg::Group;
+    
+    
     //Create Light
     // Create a transform node to displace the light
     osg::ref_ptr<osg::MatrixTransform> cubeTransform3 = new osg::MatrixTransform;
@@ -128,6 +134,10 @@ int main(int argc, char** argv) {
     light->setPosition(osg::Vec4(0.0f, 0.0f, 0.0f, 1.0f)); // Light at origin
     light->setDiffuse(osg::Vec4(1.0f, 1.0f, 1.0f, 1.0f)); // White light
     lightSource->setLight(light);
+    //root->addChild(lightSource);
+    //cubeTransform3->addChild(lightSource);
+    
+    //group->addChild(lightSource);
     
     // Add the group to the transform node
     cubeTransform3->addChild(lightGeode);
