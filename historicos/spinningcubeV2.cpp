@@ -1,3 +1,16 @@
+/******************************************************
+ * Copyright (c) 2024 Diego Antonio López López       *
+ *               diego.a.lopez@udc.es                 *
+ *               Alejandro Rodríguez Vaquero          *
+ *               a.vaquero@udc.es                     *
+ *                                                    *
+ * This code is for the IGM course assignment         *
+ * in OpenSceneGraph                                  *
+ * from the MUEI "Universidade da Coruña"             *
+ * to the date 03-04-2024 and is free to use          *
+ * and distribute.                                    *
+ ******************************************************/
+
 #include <osg/Geode>
 #include <osg/Group>
 #include <osg/ShapeDrawable>
@@ -11,7 +24,10 @@ int main(int argc, char** argv) {
     // Create a root node
     osg::ref_ptr<osg::Group> root = new osg::Group;
 
-
+    
+    //Enable Default Light
+    osg::ref_ptr<osg::StateSet> ss = root->getOrCreateStateSet();
+	ss->setMode(GL_LIGHTING, osg::StateAttribute::ON);
 
     // Create a transform node to displace the cube
     osg::ref_ptr<osg::MatrixTransform> cubeTransform = new osg::MatrixTransform;
@@ -98,66 +114,13 @@ int main(int argc, char** argv) {
     
     // Attach rotation animation to the second transform node
     cubeTransform2->setUpdateCallback(rotationCallback2);
-    
-    // Create an intermediary node to hold the green cube and light source
-    osg::ref_ptr<osg::Group> group = new osg::Group;
-    
-    
-    //Create Light
-    // Create a transform node to displace the light
-    osg::ref_ptr<osg::MatrixTransform> cubeTransform3 = new osg::MatrixTransform;
-    osg::Matrix matrix3;
-    matrix3.makeTranslate(0.0f, 0.0f, 0.0f); // Translation for light 
-    cubeTransform3->setMatrix(matrix3);
-
-    // Create a geode to hold the small cube representing the light
-    osg::ref_ptr<osg::Geode> lightGeode = new osg::Geode;
-
-    // Create a cube shape for the small cube representing the light
-    osg::ref_ptr<osg::Box> lightGeometry = new osg::Box(osg::Vec3(0, 0, 0), 0.2f);
-    osg::ref_ptr<osg::ShapeDrawable> lightDrawable = new osg::ShapeDrawable(lightGeometry);
-
-    // Set the color of the small cube to vibrant green
-    osg::ref_ptr<osg::Vec4Array> lightColor = new osg::Vec4Array;
-    lightColor->push_back(osg::Vec4(0.0f, 1.0f, 0.0f, 1.0f)); // Vibrant green color
-    lightDrawable->setColorArray(lightColor);
-    lightDrawable->setColorBinding(osg::Geometry::BIND_OVERALL);
-
-    // Add the shape to the geode
-    lightGeode->addDrawable(lightDrawable);
-
-    
-    // Add lighting to the scene
-    osg::ref_ptr<osg::LightSource> lightSource = new osg::LightSource;
-    osg::ref_ptr<osg::Light> light = new osg::Light;
-    light->setLightNum(0);
-    light->setPosition(osg::Vec4(0.0f, 0.0f, 0.0f, 1.0f)); // Light at origin
-    light->setDiffuse(osg::Vec4(1.0f, 1.0f, 1.0f, 1.0f)); // White light
-    lightSource->setLight(light);
-    //root->addChild(lightSource);
-    //cubeTransform3->addChild(lightSource);
-    
-    //group->addChild(lightSource);
-    
-    // Add the group to the transform node
-    cubeTransform3->addChild(lightGeode);
-    
-    root->addChild(cubeTransform3);
-
-	root->addChild(lightSource);
-	
-    //Enable Default Light
-    osg::ref_ptr<osg::StateSet> ss = root->getOrCreateStateSet();
-	ss->setMode(GL_LIGHTING, osg::StateAttribute::ON);
-	
-	//Enable secondary light
-	ss->setMode(GL_LIGHT0, osg::StateAttribute::ON);
 
     // Create a viewer
     osgViewer::Viewer viewer;
+    
+    // Set the scene data
     viewer.setSceneData(root);
 
     // Run the viewer
     return viewer.run();
 }
-
